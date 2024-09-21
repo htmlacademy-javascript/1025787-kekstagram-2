@@ -1,3 +1,16 @@
+const DESCRIPTIONS = [
+  'Рассвет',
+  'Закат',
+  'Розочка',
+  'Море',
+  'Первый снег',
+  'Тюльпан',
+  'Помидор',
+  'Тыква',
+  'Осенний лес',
+  'Бегемот',
+];
+
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -20,7 +33,12 @@ const NAMES = [
   'Екатерина',
 ];
 
-const DESCRIBES_PHOTO_COUNT = 25;
+const DESCRIBES_PHOTO_COUNT = 25; // Количество фото и описаний
+const NUMBER_OF_MESSAGES = 2; // Количество предложений в комментари
+const NUMBER_OF_AVATARS = 6; // Количество аватарок
+const MAX_NUMBER_OF_COMMENTS = 30; // Максимальное количество комментариев
+const MIN_NUMBER_OF_LIKES = 15; // Минимальное количество лайков
+const MAX_NUMBER_OF_LIKES = 200; // Максимальное количество лайков
 
 // Генерирует случайное целое число в заданном диапазоне
 const getRandomInteger = (min, max) => {
@@ -47,26 +65,24 @@ const createRandomId = (min, max) => {
   };
 };
 
-//Генерирует уникальный идентификатор
+// Счетчик от 1
 const createIdGenerator = () => {
   let lastGeneratedId = 0;
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
+  return () => ++lastGeneratedId;
 };
 
-const generateId = createRandomId(1, 25);
-const generateUrl = createRandomId(1, 25);
+const generateId = createRandomId(1, DESCRIBES_PHOTO_COUNT);
+const generateUrl = createRandomId(1, DESCRIBES_PHOTO_COUNT);
+
 const generateCommentId = createIdGenerator();
 
 // Для выбора одного случайного элемента из списка
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-// Выводит сообщения
+// Выводит сообщения (одно или два предложения из списка)
 const createMessage = () => {
   const message = [];
-  for (let i = 0; i < getRandomInteger(1, 2); i++) {
+  for (let i = 0; i < getRandomInteger(1, NUMBER_OF_MESSAGES); i++) {
     const nextMessage = getRandomArrayElement(MESSAGES);
     message.push(nextMessage);
   }
@@ -76,14 +92,15 @@ const createMessage = () => {
 // Выводит комментарии
 const getCommentsPhoto = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar${ getRandomInteger(1, 6) }.svg`,
+  avatar: `img/avatar${ getRandomInteger(1, NUMBER_OF_AVATARS) }.svg`,
   message: createMessage(),
   name: getRandomArrayElement(NAMES),
 });
 
+// Генерирует массив комментариев
 const createComments = () => {
   const comments = [];
-  for (let i = 0; i < getRandomInteger(0, 30); i++) {
+  for (let i = 0; i < getRandomInteger(0, MAX_NUMBER_OF_COMMENTS); i++) {
     const nextComment = getCommentsPhoto();
     comments.push(nextComment);
   }
@@ -94,8 +111,8 @@ const createComments = () => {
 const getDescriptionPhoto = () => ({
   id: generateId(),
   url: `photos/${ generateUrl() }.jpg`,
-  description: 'Здесь должно быть описание фотографии',
-  likes: getRandomInteger(15, 200),
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomInteger(MIN_NUMBER_OF_LIKES, MAX_NUMBER_OF_LIKES),
   comments: createComments(),
 });
 
