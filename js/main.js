@@ -1,3 +1,3 @@
-import {descriptionPhoto} from './data.js';
+import {descriptionPhoto} from './createArrayMiniatures.js';
 
 console.log(descriptionPhoto);
