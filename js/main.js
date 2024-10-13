@@ -1,3 +1,1 @@
-import {descriptionPhoto} from './createArrayMiniatures.js';
-
-console.log(descriptionPhoto);
+import './getMiniatures.js';
