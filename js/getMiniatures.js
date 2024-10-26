@@ -3,6 +3,7 @@ import { descriptionPhoto } from './createArrayMiniatures.js';
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
 
+// Наполняет шаблон данными для миниатюр
 const createMiniatureElement = (photo) => {
   const miniatureElement = template.cloneNode(true);
 
@@ -21,6 +22,7 @@ const createMiniatureElement = (photo) => {
 
 const containerFragment = document.createDocumentFragment();
 
+// Добавляет миниатюры в разметку
 descriptionPhoto.forEach((photo) => {
   const miniatureElement = createMiniatureElement(photo);
   containerFragment.appendChild(miniatureElement);

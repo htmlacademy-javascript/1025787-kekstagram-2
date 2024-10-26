@@ -1,1 +1,1 @@
-import './getMiniatures.js';
+import './getBigPicture.js';
