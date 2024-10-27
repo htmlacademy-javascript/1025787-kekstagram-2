@@ -34,7 +34,7 @@ const createMessage = () => {
 // Выводит комментарии
 const getCommentsPhoto = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar${ getRandomInteger(1, NUMBER_OF_AVATARS) }.svg`,
+  avatar: `img/avatar-${ getRandomInteger(1, NUMBER_OF_AVATARS) }.svg`,
   message: createMessage(),
   name: getRandomArrayElement(NAMES),
 });

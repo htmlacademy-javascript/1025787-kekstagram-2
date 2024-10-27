@@ -1,1 +1,1 @@
-import './getBigPicture.js';
+import './openBigPicture.js';
