@@ -32,4 +32,7 @@ const createIdGenerator = () => {
   return () => ++lastGeneratedId;
 };
 
-export {getRandomInteger, createRandomId, getRandomArrayElement, createIdGenerator};
+// Нажата клавиша ESC
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomInteger, createRandomId, getRandomArrayElement, createIdGenerator, isEscapeKey};
