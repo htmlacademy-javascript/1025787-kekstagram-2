@@ -1,24 +1,22 @@
-import { descriptionPhoto } from './create-array-miniatures.js';
-
 const commentShownCount = document.querySelector('.social__comment-shown-count');
 const commentTotalCount = document.querySelector('.social__comment-total-count');
-
 const socialComments = document.querySelector('.social__comments');
 const socialCommentsTemplate = socialComments.querySelector('.social__comment');
 
-const socialCommentsLoader = document.querySelector('.social__comments-loader');
+const commentsLoader = document.querySelector('.comments-loader');
 
-const countComments = 0;
+socialComments.innerHTML = '';
 
-const openComments = (id) => {
-  const currentPhoto = descriptionPhoto.find((photo) => photo.id === Number(id));
-  // Пока оставила показанные комментраии равные общему количеству комментариев
-  commentShownCount.textContent = countComments;
-  commentTotalCount.textContent = currentPhoto.comments.length;
+const STEP = 5;
+let countComments = 0;
+let arrayComments = [];
 
+const openNextComments = () => {
+  const shownComments = arrayComments.slice(countComments, countComments + STEP);
+  const shownCommentsLength = shownComments.length + countComments;
   const socialCommentsFragment = document.createDocumentFragment();
-  socialComments.innerHTML = '';
-  currentPhoto.comments.forEach((comment) => {
+
+  shownComments.forEach((comment) => {
     const socialComment = socialCommentsTemplate.cloneNode(true);
 
     socialComment.querySelector('.social__picture').src = comment.avatar;
@@ -27,7 +25,30 @@ const openComments = (id) => {
 
     socialCommentsFragment.appendChild(socialComment);
   });
+
   socialComments.appendChild(socialCommentsFragment);
+
+  commentShownCount.textContent = shownCommentsLength;
+  commentTotalCount.textContent = arrayComments.length;
+
+  if (shownCommentsLength >= arrayComments.length) {
+    commentsLoader.classList.add('hidden');
+  }
+
+  countComments += 5;
 };
 
-export { openComments };
+const clearComments = () => {
+  countComments = 0;
+  socialComments.innerHTML = '';
+  commentsLoader.classList.remove('hidden');
+  commentsLoader.removeEventListener('click', openNextComments);
+};
+
+const openComments = (currentPhotoComments) => {
+  arrayComments = currentPhotoComments;
+  openNextComments();
+  commentsLoader.addEventListener('click', openNextComments);
+};
+
+export { openComments, clearComments };

@@ -1,7 +1,7 @@
 import './get-miniatures.js';
 import { isEscapeKey } from './util.js';
 import { descriptionPhoto } from './create-array-miniatures.js';
-import { openComments } from './open-comments.js';
+import { openComments, clearComments } from './open-comments.js';
 
 const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureElement.querySelector('.big-picture__img img');
@@ -27,6 +27,7 @@ const onDocumentKeydown = (evt) => {
 
 // Функция для закрытия большой картинки
 const closeBigPicture = () => {
+  clearComments();
   bigPictureElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -42,7 +43,7 @@ const openBigPicture = (id) => {
   caption.textContent = currentPhoto.description;
   likesCount.textContent = currentPhoto.likes;
 
-  openComments(id);
+  openComments(currentPhoto.comments);
 
   bigPictureElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
