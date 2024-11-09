@@ -1,4 +1,4 @@
-import { descriptionPhoto } from './createArrayMiniatures.js';
+import { descriptionPhoto } from './create-array-miniatures.js';
 
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');

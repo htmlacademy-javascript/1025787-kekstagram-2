@@ -1,4 +1,4 @@
-import { openBigPicture } from './getBigPicture.js';
+import { openBigPicture } from './get-big-picture.js';
 
 const miniaturesElement = document.querySelectorAll('.picture');
 
