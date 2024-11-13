@@ -11,29 +11,38 @@ const STEP = 5;
 let countComments = 0;
 let arrayComments = [];
 
+// Отображает количество видимых комментариев
+const renderStatistic = (shownElementsCount, array) => {
+  commentShownCount.textContent = shownElementsCount;
+  commentTotalCount.textContent = array.length;
+};
+
+// Проверяет нужно ли скрывать кнопку
+const renderLoader = (shownElementsCount, array) => {
+  if (shownElementsCount >= array.length) {
+    commentsLoader.classList.add('hidden');
+  }
+};
+
 const openNextComments = () => {
   const shownComments = arrayComments.slice(countComments, countComments + STEP);
   const shownCommentsLength = shownComments.length + countComments;
   const socialCommentsFragment = document.createDocumentFragment();
 
-  shownComments.forEach((comment) => {
+  shownComments.forEach(({avatar, name, message}) => {
     const socialComment = socialCommentsTemplate.cloneNode(true);
 
-    socialComment.querySelector('.social__picture').src = comment.avatar;
-    socialComment.querySelector('.social__picture').alt = comment.name;
-    socialComment.querySelector('.social__text').textContent = comment.message;
+    socialComment.querySelector('.social__picture').src = avatar;
+    socialComment.querySelector('.social__picture').alt = name;
+    socialComment.querySelector('.social__text').textContent = message;
 
     socialCommentsFragment.appendChild(socialComment);
   });
 
   socialComments.appendChild(socialCommentsFragment);
 
-  commentShownCount.textContent = shownCommentsLength;
-  commentTotalCount.textContent = arrayComments.length;
-
-  if (shownCommentsLength >= arrayComments.length) {
-    commentsLoader.classList.add('hidden');
-  }
+  renderStatistic(shownCommentsLength, arrayComments);
+  renderLoader(shownCommentsLength, arrayComments);
 
   countComments += 5;
 };
@@ -46,7 +55,7 @@ const clearComments = () => {
 };
 
 const openComments = (currentPhotoComments) => {
-  arrayComments = currentPhotoComments;
+  arrayComments = [...currentPhotoComments];
   openNextComments();
   commentsLoader.addEventListener('click', openNextComments);
 };

@@ -1,7 +1,9 @@
-import { descriptionPhoto } from './create-array-miniatures.js';
+import { openBigPicture } from './get-big-picture.js';
 
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
+
+let localData;
 
 // Наполняет шаблон данными для миниатюр
 const createMiniatureElement = (photo) => {
@@ -20,12 +22,27 @@ const createMiniatureElement = (photo) => {
   return miniatureElement;
 };
 
-const containerFragment = document.createDocumentFragment();
+const renderCards = (data) => {
+  localData = [...data];
+  const containerFragment = document.createDocumentFragment();
 
-// Добавляет миниатюры в разметку
-descriptionPhoto.forEach((photo) => {
-  const miniatureElement = createMiniatureElement(photo);
-  containerFragment.appendChild(miniatureElement);
+  // Добавляет миниатюры в разметку
+  data.forEach((photo) => {
+    const miniatureElement = createMiniatureElement(photo);
+    containerFragment.appendChild(miniatureElement);
+  });
+
+  container.appendChild(containerFragment);
+};
+
+container.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  const card = evt.target.closest('.picture');
+  if(card){
+    const id = Number(card.dataset.id);
+    const currentPhoto = localData.find((item) => item.id === id);
+    openBigPicture(currentPhoto);
+  }
 });
 
-container.appendChild(containerFragment);
+export { renderCards };
