@@ -36,9 +36,9 @@ const renderCards = (data) => {
 };
 
 container.addEventListener('click', (evt) => {
-  evt.preventDefault();
   const card = evt.target.closest('.picture');
   if(card){
+    evt.preventDefault();
     const id = Number(card.dataset.id);
     const currentPhoto = localData.find((item) => item.id === id);
     openBigPicture(currentPhoto);

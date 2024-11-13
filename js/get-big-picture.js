@@ -38,8 +38,7 @@ const hideModal = () => {
   bigPictureElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  // eslint-disable-next-line no-use-before-define
-  buttonCancel.removeEventListener('click', closeBigPicture);
+  buttonCancel.removeEventListener('click', onCloseBigPictureClick);
 };
 
 // Функция для очистки комментариев и закрытия модального окна
