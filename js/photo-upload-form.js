@@ -1,4 +1,4 @@
-import { validateForm } from './validate-form.js';
+import { isFormValid } from './validate-form.js';
 import { isEscapeKey } from './util.js';
 
 const imgForm = document.querySelector('.img-upload__form');
@@ -50,7 +50,7 @@ const hideForm = () => {
 
 const photoUpload = () => {
   imgUpload.addEventListener('change', shownForm);
-  validateForm();
+  isFormValid();
 };
 
 export { photoUpload };

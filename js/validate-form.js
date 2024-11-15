@@ -1,4 +1,5 @@
 const imgForm = document.querySelector('.img-upload__form');
+const button = imgForm.querySelector('.img-upload__submit');
 
 const HASHTAG_MAX_COUNT = 5;
 const HASHTAG_MAX_SYMBOLS = 20;
@@ -10,11 +11,13 @@ const pristine = new Pristine(imgForm, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
+// Сообщение об ошибке
 let errorMessage = '';
-
 const error = () => errorMessage;
 
+// Проверяет валидность хэштегов
 const isHashtagValid = (value) => {
+  // Очищает сообщение об ошибке
   errorMessage = '';
   // Приводит к нижнему регистру и убирает пробелы по бокам
   const hastagsText = value.toLowerCase().trim();
@@ -22,7 +25,7 @@ const isHashtagValid = (value) => {
   if (hastagsText.length === 0) {
     return true;
   }
-  // Создает массив хэштегов
+  // Создает массив хэштегов из данных поля
   const hastagsArray = value.split(' ');
   // Создаёт правила показа ошибок
   const rules = [
@@ -44,7 +47,7 @@ const isHashtagValid = (value) => {
     },
     {
       check: hastagsArray.some((item) => item.length > HASHTAG_MAX_SYMBOLS),
-      error: `Длина хэштега не может быть больше${ HASHTAG_MAX_SYMBOLS }символов`
+      error: `Длина хэштега не может быть больше ${ HASHTAG_MAX_SYMBOLS } символов`
     },
     {
       check: hastagsArray.length > HASHTAG_MAX_COUNT,
@@ -60,59 +63,14 @@ const isHashtagValid = (value) => {
     const isInvalid = rule.check;
     if (isInvalid) {
       errorMessage = rule.error;
+      button.disabled = true;
     }
-    return !isInvalid;
+    if (!isInvalid) {
+      button.disabled = false;
+      return !isInvalid;
+    }
   });
 };
-
-// // Проверяет валидность хэштега
-// const validateHashtagText = (array) => {
-//   const hashtags = array.split(' ');
-//   let element;
-//   hashtags.forEach((hashtag) => {
-//     element = /^#[a-zа-я0-9]{1,19}$/i.test(hashtag);
-//   });
-//   return element;
-// };
-
-// // Проверяет количество хэштегов
-// const validateHashtagCount = (array) => {
-//   const hashtags = array.split(' ');
-//   return hashtags.length <= HASHTAG_COUNT;
-// };
-
-// // Проверяет повторение хэштегов
-// const validateHashtagRepeat = (array) => {
-//   const hashtags = array.split(' ');
-//   hashtags.forEach((hashtag) => hashtag.toLowerCase());
-//   const duplicates = [];
-//   for (let i = 0; i < hashtags.length; i++) {
-//     for (let j = i + 1; j < hashtags.length; j++) {
-//       if (hashtags[i] === hashtags[j] && !duplicates.includes(hashtags[i])) {
-//         duplicates.push(hashtags[i]);
-//       }
-//     }
-//   }
-//   return duplicates.length === 0;
-// };
-
-// pristine.addValidator(
-//   imgForm.querySelector('.text__hashtags'),
-//   validateHashtagText,
-//   'Неправильный хэштег'
-// );
-
-// pristine.addValidator(
-//   imgForm.querySelector('.text__hashtags'),
-//   validateHashtagCount,
-//   'Превышено максимальное количество хэштегов'
-// );
-
-// pristine.addValidator(
-//   imgForm.querySelector('.text__hashtags'),
-//   validateHashtagRepeat,
-//   'Хэштеги не должны повторяться'
-// );
 
 pristine.addValidator(
   imgForm.querySelector('.text__hashtags'),
@@ -121,7 +79,7 @@ pristine.addValidator(
 );
 
 // Проверяет количество симполов в комментарии
-const validateComment = (value) => {
+const isCommentValid = (value) => {
   if (value.length === 0) {
     return true;
   }
@@ -130,15 +88,15 @@ const validateComment = (value) => {
 
 pristine.addValidator(
   imgForm.querySelector('.text__description'),
-  validateComment,
-  `Длина комментария не может быть больше${ COMMENT_MAX_SYMBOLS }символов`
+  isCommentValid,
+  `Длина комментария не может быть больше ${ COMMENT_MAX_SYMBOLS } символов`
 );
 
-const validateForm = () => {
+const isFormValid = () => {
   imgForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     pristine.validate();
   });
 };
 
-export { validateForm };
+export { isFormValid };
