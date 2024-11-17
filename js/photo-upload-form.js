@@ -1,5 +1,6 @@
 import { isFormValid } from './validate-form.js';
 import { isEscapeKey } from './util.js';
+import { changeScale } from './scale.js';
 
 const imgForm = document.querySelector('.img-upload__form');
 
@@ -50,9 +51,8 @@ const hideForm = () => {
 
 const photoUpload = () => {
   imgUpload.addEventListener('change', shownForm);
+  changeScale();
   isFormValid();
 };
 
 export { photoUpload };
-
-photoUpload();
