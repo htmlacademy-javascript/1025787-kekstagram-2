@@ -4,7 +4,7 @@ const scale = document.querySelector('.img-upload__scale');
 const scaleControl = scale.querySelector('.scale__control--value');
 const buttonSmaller = scale.querySelector('.scale__control--smaller');
 const buttonBigger = scale.querySelector('.scale__control--bigger');
-const imagePreview = document.querySelector('.img-upload__preview');
+const imagePreview = document.querySelector('.img-upload__preview img');
 
 const getSmaller = () => {
   if (parseFloat(scaleControl.value) > 25) {
