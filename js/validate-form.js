@@ -23,6 +23,7 @@ const isHashtagValid = (value) => {
   const hastagsText = value.toLowerCase().trim();
   // Проверяет отсутствие хэштегов
   if (hastagsText.length === 0) {
+    button.disabled = false;
     return true;
   }
   // Создает массив хэштегов из данных поля
