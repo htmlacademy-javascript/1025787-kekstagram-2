@@ -1,12 +1,13 @@
 import { EffectsSettings, EFFECTS } from './constants.js';
 
-const imagePreview = document.querySelector('.img-upload__preview img');
+const imagePreview = document.querySelector('.img-upload__preview');
 const effectsList = document.querySelector('.effects__list');
 const effectLevel = document.querySelector('.effect-level');
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 
 let currentFilter = EFFECTS.DEFAULT;
+let nameClass = '';
 
 noUiSlider.create(effectSlider, {
   range: {
@@ -29,6 +30,8 @@ noUiSlider.create(effectSlider, {
 const renderImage = (value) => {
   if (currentFilter !== EFFECTS.DEFAULT) {
     const { style, unit } = EffectsSettings[currentFilter];
+    nameClass = `effects__preview--${style}`;
+    imagePreview.classList.add(nameClass);
     imagePreview.style.filter = `${style}(${value}${unit})`;
   } else {
     imagePreview.style.filter = '';
@@ -38,6 +41,9 @@ const renderImage = (value) => {
 effectSlider.noUiSlider.on('update', () => {
   const value = effectSlider.noUiSlider.get();
   effectValue.value = value;
+  if (imagePreview.classList.contains(nameClass)) {
+    imagePreview.classList.remove(nameClass);
+  }
   renderImage(value);
 });
 
