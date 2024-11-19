@@ -1,4 +1,4 @@
-import { EffectsSettings, EFFECTS } from './effects-constants.js';
+import { EffectsSettings, EFFECTS } from './constants.js';
 
 const imagePreview = document.querySelector('.img-upload__preview img');
 const effectsList = document.querySelector('.effects__list');
@@ -16,6 +16,14 @@ noUiSlider.create(effectSlider, {
   start: 1,
   step: 0.1,
   connect: 'lower',
+  format: {
+    to: function (value) {
+      return value;
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
 });
 
 const renderImage = (value) => {

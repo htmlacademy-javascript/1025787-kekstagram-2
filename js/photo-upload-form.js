@@ -1,7 +1,7 @@
 import { isFormValid } from './validate-form.js';
 import { isEscapeKey } from './util.js';
 import { changeScale } from './scale.js';
-import {reset as resetFilter} from './effects.js';
+import {reset as resetFilter} from './effect.js';
 
 const imgForm = document.querySelector('.img-upload__form');
 

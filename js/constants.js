@@ -8,6 +8,15 @@ export const EFFECTS = {
 };
 
 export const EffectsSettings = {
+  [EFFECTS.DEFAULT]: {
+    range: {
+      min: 0,
+      max: 1,
+    },
+    step: 0.1,
+    unit: '',
+    style: ''
+  },
   [EFFECTS.CHROME]: {
     range: {
       min: 0,
