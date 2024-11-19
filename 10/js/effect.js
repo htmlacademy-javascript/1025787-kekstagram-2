@@ -1,64 +1,77 @@
+import { EffectsSettings, EFFECTS } from './constants.js';
+
 const imagePreview = document.querySelector('.img-upload__preview');
 const effectsList = document.querySelector('.effects__list');
 const effectLevel = document.querySelector('.effect-level');
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 
+let currentFilter = EFFECTS.DEFAULT;
+let nameClass = '';
+
 noUiSlider.create(effectSlider, {
   range: {
-    'min': 0,
-    'max': 1,
+    min: 0,
+    max: 1,
   },
   start: 1,
   step: 0.1,
   connect: 'lower',
+  format: {
+    to: function (value) {
+      return value;
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
 });
+
+const renderImage = (value) => {
+  if (currentFilter !== EFFECTS.DEFAULT) {
+    const { style, unit } = EffectsSettings[currentFilter];
+    nameClass = `effects__preview--${style}`;
+    imagePreview.classList.add(nameClass);
+    imagePreview.style.filter = `${style}(${value}${unit})`;
+  } else {
+    imagePreview.style.filter = '';
+  }
+};
 
 effectSlider.noUiSlider.on('update', () => {
-  effectValue.value = effectSlider.noUiSlider.get();
+  const value = effectSlider.noUiSlider.get();
+  effectValue.value = value;
+  if (imagePreview.classList.contains(nameClass)) {
+    imagePreview.classList.remove(nameClass);
+  }
+  renderImage(value);
 });
 
-const effects = [
-  {
-    id: '#effect-none',
-    filter: 'none',
-  },
-  {
-    id: '#effect-chrome',
-    filter: 'grayscale(3)',
-  },
-  {
-    id: '#effect-sepia',
-    filter: 'sepia(1)',
-  },
-  {
-    id: '#effect-marvin',
-    filter: 'invert(100%)',
-  },
-  {
-    id: '#effect-phobos',
-    filter: 'blur(3px)',
-  },
-  {
-    id: '#effect-heat',
-    filter: 'brightness(3)',
-  },
-];
+const renderSlider = () => {
+  if (currentFilter !== EFFECTS.DEFAULT) {
+    effectLevel.classList.remove('hidden');
+  } else {
+    effectLevel.classList.add('hidden');
+  }
+};
 
-effectLevel.classList.add('hidden');
-
-effectsList.addEventListener('click', (evt) => {
-  effects.forEach((effect) => {
-    const item = evt.target.closest(effect.id);
-    if (item) {
-      effectsList.querySelector('#effect-none').checked = false;
-      effectsList.querySelector(effect.id).checked = true;
-      imagePreview.style.filter = effect.filter;
-      if (effectsList.querySelector('#effect-none').checked) {
-        effectLevel.classList.add('hidden');
-      } else {
-        effectLevel.classList.remove('hidden');
-      }
-    }
+const updateSlider = ({ range, step }) => {
+  effectSlider.noUiSlider.updateOptions({
+    range,
+    step,
+    start: range.max
   });
+  renderSlider();
+};
+
+effectsList.addEventListener('change', ({ target }) => {
+  currentFilter = target.value;
+  updateSlider(EffectsSettings[currentFilter]);
 });
+
+export const reset = () => {
+  currentFilter = EFFECTS.DEFAULT;
+  updateSlider(EffectsSettings[currentFilter]);
+};
+
+reset();
