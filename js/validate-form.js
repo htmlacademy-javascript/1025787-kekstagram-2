@@ -23,6 +23,7 @@ const isHashtagValid = (value) => {
   const hastagsText = value.toLowerCase().trim();
   // Проверяет отсутствие хэштегов
   if (hastagsText.length === 0) {
+    button.disabled = false;
     return true;
   }
   // Создает массив хэштегов из данных поля
@@ -78,7 +79,7 @@ pristine.addValidator(
   error
 );
 
-// Проверяет количество симполов в комментарии
+// Проверяет количество символов в комментарии
 const isCommentValid = (value) => {
   if (value.length === 0) {
     return true;
