@@ -2,6 +2,7 @@ import { openBigPicture } from './get-big-picture.js';
 
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
+const templateError = document.querySelector('#data-error').content.querySelector('.data-error');
 
 let localData;
 
@@ -45,4 +46,17 @@ container.addEventListener('click', (evt) => {
   }
 });
 
-export { renderCards };
+// Сообщаение о том, что данные с сервера не загрузились
+const shownDataError = () => {
+  const errorElement = templateError.cloneNode(true);
+  const bodyFragment = document.createDocumentFragment();
+  bodyFragment.append(errorElement);
+  document.body.appendChild(bodyFragment);
+
+  setTimeout(() => {
+    document.body.removeChild(errorElement);
+  }, 5000
+  );
+};
+
+export { renderCards, shownDataError };
