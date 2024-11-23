@@ -1,3 +1,6 @@
+import { sendData } from './api.js';
+import { chownSuccess } from './check-send-data.js';
+
 const imgForm = document.querySelector('.img-upload__form');
 const button = imgForm.querySelector('.img-upload__submit');
 
@@ -98,14 +101,9 @@ const setUserFormSubmit = (onSuccess) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
-      const formData = new FormData(evt.target);
-      fetch(
-        'https://31.javascript.htmlacademy.pro/kekstagram',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      ).then(onSuccess);
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .then(chownSuccess());
     }
   });
 };
