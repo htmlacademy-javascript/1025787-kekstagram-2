@@ -1,4 +1,4 @@
-import { isFormValid } from './validate-form.js';
+import { setUserFormSubmit } from './validate-form.js';
 import { isEscapeKey } from './util.js';
 import { changeScale } from './scale.js';
 import {reset as resetFilter} from './effect.js';
@@ -36,6 +36,7 @@ const shownForm = () => {
   document.body.classList.add('modal-open');
   cancel.addEventListener('click', onCloseForm);
   document.addEventListener('keydown', onDocumentKeydown);
+  changeScale();
 };
 
 // Скрывает форму редактирования фото
@@ -49,10 +50,9 @@ function hideForm() {
   resetFilter();
 }
 
-const photoUpload = () => {
+const photoUpload = (onSuccess) => {
   imgUpload.addEventListener('change', shownForm);
-  changeScale();
-  isFormValid();
+  setUserFormSubmit(onSuccess);
 };
 
-export { photoUpload };
+export { photoUpload, shownForm, hideForm };

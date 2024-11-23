@@ -20,9 +20,7 @@ const getBigger = () => {
   }
 };
 
-const changeScale = () => {
+export const changeScale = () => {
   buttonSmaller.addEventListener('click', getSmaller);
   buttonBigger.addEventListener('click', getBigger);
 };
-
-export { changeScale };

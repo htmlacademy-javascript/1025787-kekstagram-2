@@ -93,11 +93,21 @@ pristine.addValidator(
   `Длина комментария не может быть больше ${ COMMENT_MAX_SYMBOLS } символов`
 );
 
-const isFormValid = () => {
+const setUserFormSubmit = (onSuccess) => {
   imgForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+      fetch(
+        'https://31.javascript.htmlacademy.pro/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      ).then(onSuccess);
+    }
   });
 };
 
-export { isFormValid };
+export { setUserFormSubmit };
