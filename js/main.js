@@ -1,5 +1,5 @@
 import { renderCards, shownDataError } from './get-miniatures.js';
-import { photoUpload, hideForm } from './photo-upload-form.js';
+import { photoUpload } from './photo-upload-form.js';
 import { getData } from './api.js';
 
 // Получаю данные с сервера:
@@ -10,4 +10,4 @@ getData()
   .catch(() => shownDataError());
 
 // Проверяю валидность формы и если всё хорошо, то отправляю на сервер:
-photoUpload(hideForm);
+photoUpload();

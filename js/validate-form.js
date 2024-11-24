@@ -8,6 +8,11 @@ const HASHTAG_MAX_COUNT = 5;
 const HASHTAG_MAX_SYMBOLS = 20;
 const COMMENT_MAX_SYMBOLS = 140;
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
+
 const pristine = new Pristine(imgForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -96,14 +101,26 @@ pristine.addValidator(
   `Длина комментария не может быть больше ${ COMMENT_MAX_SYMBOLS } символов`
 );
 
+const blockSubmitButton = () => {
+  button.disabled = true;
+  button.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  button.disabled = false;
+  button.textContent = SubmitButtonText.IDLE;
+};
+
 const setUserFormSubmit = (onSuccess) => {
   imgForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
+      blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
-        .then(chownSuccess());
+        .then(chownSuccess)
+        .finally(unblockSubmitButton);
     }
   });
 };

@@ -50,9 +50,9 @@ function hideForm() {
   resetFilter();
 }
 
-const photoUpload = (onSuccess) => {
+const photoUpload = () => {
   imgUpload.addEventListener('change', shownForm);
-  setUserFormSubmit(onSuccess);
+  setUserFormSubmit(hideForm);
 };
 
-export { photoUpload, shownForm, hideForm };
+export { photoUpload };
