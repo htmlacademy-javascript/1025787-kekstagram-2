@@ -22,7 +22,7 @@ const onCloseForm = (evt) => {
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    if (document.activeElement === fieldHashtags || document.activeElement === fieldComment) {
+    if (document.activeElement === fieldHashtags || document.activeElement === fieldComment || document.querySelector('.error')) {
       evt.stopPropagation();
     } else {
       hideForm();

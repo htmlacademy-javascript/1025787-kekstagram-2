@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { chownSuccess } from './check-send-data.js';
+import { shownSuccess, shownError } from './check-send-data.js';
 
 const imgForm = document.querySelector('.img-upload__form');
 const button = imgForm.querySelector('.img-upload__submit');
@@ -119,7 +119,8 @@ const setUserFormSubmit = (onSuccess) => {
       blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
-        .then(chownSuccess)
+        .then(shownSuccess)
+        .catch(shownError)
         .finally(unblockSubmitButton);
     }
   });
