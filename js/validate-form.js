@@ -1,5 +1,7 @@
 import { sendData } from './api.js';
 import { shownSuccess, shownError } from './check-send-data.js';
+import { PopupTypes } from './constants.js';
+import { showPopup } from './popup.js';
 
 const imgForm = document.querySelector('.img-upload__form');
 const button = imgForm.querySelector('.img-upload__submit');
@@ -56,11 +58,11 @@ const isHashtagValid = (value) => {
     },
     {
       check: hastagsArray.some((item) => item.length > HASHTAG_MAX_SYMBOLS),
-      error: `Длина хэштега не может быть больше ${ HASHTAG_MAX_SYMBOLS } символов`
+      error: `Длина хэштега не может быть больше ${HASHTAG_MAX_SYMBOLS} символов`
     },
     {
       check: hastagsArray.length > HASHTAG_MAX_COUNT,
-      error: `Максимальная количество хэштегов - ${ HASHTAG_MAX_COUNT }`
+      error: `Максимальная количество хэштегов - ${HASHTAG_MAX_COUNT}`
     },
     {
       check: hastagsArray.some((item) => !/^#[a-zа-я0-9]{1,19}$/i.test(item)),
@@ -98,17 +100,12 @@ const isCommentValid = (value) => {
 pristine.addValidator(
   imgForm.querySelector('.text__description'),
   isCommentValid,
-  `Длина комментария не может быть больше ${ COMMENT_MAX_SYMBOLS } символов`
+  `Длина комментария не может быть больше ${COMMENT_MAX_SYMBOLS} символов`
 );
 
-const blockSubmitButton = () => {
-  button.disabled = true;
-  button.textContent = SubmitButtonText.SENDING;
-};
-
-const unblockSubmitButton = () => {
-  button.disabled = false;
-  button.textContent = SubmitButtonText.IDLE;
+const blockSubmitButton = (isBlocked = true) => {
+  button.disabled = isBlocked;
+  button.textContent = isBlocked ? SubmitButtonText.SENDING : SubmitButtonText.IDLE;
 };
 
 const setUserFormSubmit = (onSuccess) => {
@@ -118,10 +115,21 @@ const setUserFormSubmit = (onSuccess) => {
     if (isValid) {
       blockSubmitButton();
       sendData(new FormData(evt.target))
-        .then(onSuccess)
-        .then(shownSuccess)
-        .catch(shownError)
-        .finally(unblockSubmitButton);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error()
+          }
+          onSuccess();
+          // shownSuccess();
+          showPopup(PopupTypes.SUCCESS);
+        })
+        .catch(() => {
+          // shownError();
+          showPopup(PopupTypes.ERROR);
+        })
+        .finally(() => {
+          blockSubmitButton(false);
+        });
     }
   });
 };

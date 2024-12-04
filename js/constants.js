@@ -63,3 +63,8 @@ export const EffectsSettings = {
     style: 'brightness'
   },
 };
+
+export const PopupTypes = {
+  SUCCESS: 'success',
+  ERROR: 'error'
+}
