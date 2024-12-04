@@ -67,4 +67,4 @@ export const EffectsSettings = {
 export const PopupTypes = {
   SUCCESS: 'success',
   ERROR: 'error'
-}
+};

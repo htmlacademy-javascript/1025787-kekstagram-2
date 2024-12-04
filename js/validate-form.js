@@ -1,5 +1,4 @@
 import { sendData } from './api.js';
-import { shownSuccess, shownError } from './check-send-data.js';
 import { PopupTypes } from './constants.js';
 import { showPopup } from './popup.js';
 
@@ -117,14 +116,12 @@ const setUserFormSubmit = (onSuccess) => {
       sendData(new FormData(evt.target))
         .then((response) => {
           if (!response.ok) {
-            throw new Error()
+            throw new Error();
           }
           onSuccess();
-          // shownSuccess();
           showPopup(PopupTypes.SUCCESS);
         })
         .catch(() => {
-          // shownError();
           showPopup(PopupTypes.ERROR);
         })
         .finally(() => {
