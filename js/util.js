@@ -1,39 +1,26 @@
-// Генерирует случайное целое число в заданном диапазоне
-const getRandomInteger = (min, max) => {
-  const lower = Math.ceil(Math.min(min, max));
-  const upper = Math.floor(Math.max(min, max));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
+// Нажата клавиша ESC
+export const isEscapeKey = (evt) => evt.key === 'Escape';
 
-// Генерирует случайное неповторяющееся число в заданном диапазоне
-const createRandomId = (min, max) => {
-  const previousValues = [];
-  return () => {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      // eslint-disable-next-line no-console
-      console.error(`Перебраны все числа из диапазона от ${ min } до ${ max }`);
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
+// Устраняет дребезг
+export const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
 };
 
-// Для выбора одного случайного элемента из списка
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+// Пропуск кадров
+export const throttle = (callback, delayBetweenFrames) => {
+  let lastTime = 0;
 
-// Счетчик от 1 (прибавляет 1)
-const createIdGenerator = () => {
-  let lastGeneratedId = 0;
-  return () => ++lastGeneratedId;
+  return (...rest) => {
+    const now = new Date();
+
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
 };
-
-// Нажата клавиша ESC
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
-export {getRandomInteger, createRandomId, getRandomArrayElement, createIdGenerator, isEscapeKey};

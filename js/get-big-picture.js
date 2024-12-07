@@ -1,4 +1,3 @@
-import './get-miniatures.js';
 import { isEscapeKey } from './util.js';
 import { openComments, clearComments } from './open-comments.js';
 
@@ -10,20 +9,18 @@ const caption = bigPictureElement.querySelector('.social__caption');
 const buttonCancel = document.querySelector('.big-picture__cancel');
 
 // Обработчик нажатия на крестик
-function onCloseBigPictureClick(evt) {
+const onCloseBigPictureClick = (evt) => {
   evt.preventDefault();
-  // eslint-disable-next-line no-use-before-define
   closeBigPicture();
-}
+};
 
 // Обработчик нажатия клавиши ESC
-function onDocumentKeydown(evt) {
+const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    // eslint-disable-next-line no-use-before-define
     closeBigPicture();
   }
-}
+};
 
 // Функция для открытия модального окна
 const showModal = () => {
@@ -42,10 +39,10 @@ const hideModal = () => {
 };
 
 // Функция для очистки комментариев и закрытия модального окна
-const closeBigPicture = () => {
+function closeBigPicture () {
   clearComments();
   hideModal();
-};
+}
 
 const renderModal = ({ url, description, likes, comments }) => {
   bigPictureImg.src = url;

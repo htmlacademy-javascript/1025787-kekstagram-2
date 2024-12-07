@@ -63,3 +63,19 @@ export const EffectsSettings = {
     style: 'brightness'
   },
 };
+
+export const PopupTypes = {
+  SUCCESS: 'success',
+  ERROR: 'error'
+};
+
+export const FILTERS = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed'
+};
+
+export const SORTFUNC = {
+  RANDOM: () => 0.5 - Math.random(),
+  DISCUSSED: (a, b) => b.comments.length - a.comments.length
+};

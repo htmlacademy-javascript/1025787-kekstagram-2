@@ -1,6 +1,6 @@
 import { EffectsSettings, EFFECTS } from './constants.js';
 
-const imagePreview = document.querySelector('.img-upload__preview');
+const imagePreview = document.querySelector('.img-upload__preview img');
 const effectsList = document.querySelector('.effects__list');
 const effectLevel = document.querySelector('.effect-level');
 const effectSlider = document.querySelector('.effect-level__slider');

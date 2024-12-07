@@ -23,7 +23,14 @@ const createMiniatureElement = (photo) => {
   return miniatureElement;
 };
 
+// Удаляет карточки с фото
+const clearCards = () => {
+  document.querySelectorAll('.picture').forEach((item) => item.remove());
+};
+
+// Отображает карточки с фото
 const renderCards = (data) => {
+  clearCards();
   localData = [...data];
   const containerFragment = document.createDocumentFragment();
 

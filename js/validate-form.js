@@ -1,6 +1,3 @@
-import { sendData } from './api.js';
-import { shownSuccess, shownError } from './check-send-data.js';
-
 const imgForm = document.querySelector('.img-upload__form');
 const button = imgForm.querySelector('.img-upload__submit');
 
@@ -8,12 +5,7 @@ const HASHTAG_MAX_COUNT = 5;
 const HASHTAG_MAX_SYMBOLS = 20;
 const COMMENT_MAX_SYMBOLS = 140;
 
-const SubmitButtonText = {
-  IDLE: 'Опубликовать',
-  SENDING: 'Публикую...'
-};
-
-const pristine = new Pristine(imgForm, {
+export const pristine = new Pristine(imgForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
@@ -56,11 +48,11 @@ const isHashtagValid = (value) => {
     },
     {
       check: hastagsArray.some((item) => item.length > HASHTAG_MAX_SYMBOLS),
-      error: `Длина хэштега не может быть больше ${ HASHTAG_MAX_SYMBOLS } символов`
+      error: `Длина хэштега не может быть больше ${HASHTAG_MAX_SYMBOLS} символов`
     },
     {
       check: hastagsArray.length > HASHTAG_MAX_COUNT,
-      error: `Максимальная количество хэштегов - ${ HASHTAG_MAX_COUNT }`
+      error: `Максимальная количество хэштегов - ${HASHTAG_MAX_COUNT}`
     },
     {
       check: hastagsArray.some((item) => !/^#[a-zа-я0-9]{1,19}$/i.test(item)),
@@ -98,32 +90,5 @@ const isCommentValid = (value) => {
 pristine.addValidator(
   imgForm.querySelector('.text__description'),
   isCommentValid,
-  `Длина комментария не может быть больше ${ COMMENT_MAX_SYMBOLS } символов`
+  `Длина комментария не может быть больше ${COMMENT_MAX_SYMBOLS} символов`
 );
-
-const blockSubmitButton = () => {
-  button.disabled = true;
-  button.textContent = SubmitButtonText.SENDING;
-};
-
-const unblockSubmitButton = () => {
-  button.disabled = false;
-  button.textContent = SubmitButtonText.IDLE;
-};
-
-const setUserFormSubmit = (onSuccess) => {
-  imgForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
-      blockSubmitButton();
-      sendData(new FormData(evt.target))
-        .then(onSuccess)
-        .then(shownSuccess)
-        .catch(shownError)
-        .finally(unblockSubmitButton);
-    }
-  });
-};
-
-export { setUserFormSubmit };
