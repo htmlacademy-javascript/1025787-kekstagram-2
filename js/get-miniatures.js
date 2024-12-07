@@ -4,6 +4,8 @@ const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const templateError = document.querySelector('#data-error').content.querySelector('.data-error');
 
+const REMOVE_ERRROR_TIMER = 5000;
+
 let localData;
 
 // Наполняет шаблон данными для миниатюр
@@ -53,17 +55,19 @@ container.addEventListener('click', (evt) => {
   }
 });
 
-// Сообщаение о том, что данные с сервера не загрузились
-const shownDataError = () => {
+// Сообщаение об ошибке
+const shownToastError = (errorMessage) => {
   const errorElement = templateError.cloneNode(true);
-  const bodyFragment = document.createDocumentFragment();
-  bodyFragment.append(errorElement);
-  document.body.appendChild(bodyFragment);
-
-  setTimeout(() => {
-    document.body.removeChild(errorElement);
-  }, 5000
-  );
+  document.body.appendChild(errorElement);
+  if(errorMessage) {
+    errorElement.querySelector('.data-error__title').textContent = errorMessage;
+  }
+  setTimeout(() => (errorElement.remove()), REMOVE_ERRROR_TIMER);
 };
 
-export { renderCards, shownDataError };
+// Сообщаение о том, что данные с сервера не загрузились
+const shownDataError = () => {
+  shownToastError();
+};
+
+export { renderCards, shownDataError, shownToastError };
