@@ -1,7 +1,10 @@
-import { setUserFormSubmit } from './validate-form.js';
+import { sendData } from './api.js';
 import { isEscapeKey } from './util.js';
 import { changeScale } from './scale.js';
 import {reset as resetFilter} from './effect.js';
+import { pristine } from './validate-form.js';
+import { PopupTypes } from './constants.js';
+import { showPopup } from './popup.js';
 
 const imgForm = document.querySelector('.img-upload__form');
 
@@ -11,6 +14,13 @@ const cancel = imgForm.querySelector('.img-upload__cancel');
 
 const fieldHashtags = imgForm.querySelector('.text__hashtags');
 const fieldComment = imgForm.querySelector('.text__description');
+
+const button = imgForm.querySelector('.img-upload__submit');
+
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
 
 // Обработчик нажатия на крестик
 const onCloseForm = (evt) => {
@@ -50,9 +60,34 @@ function hideForm() {
   resetFilter();
 }
 
-const photoUpload = () => {
-  imgUpload.addEventListener('change', shownForm);
-  setUserFormSubmit(hideForm);
+// Блокирует кнопку на время отправки данных
+const blockSubmitButton = (isBlocked = true) => {
+  button.disabled = isBlocked;
+  button.textContent = isBlocked ? SubmitButtonText.SENDING : SubmitButtonText.IDLE;
 };
 
-export { photoUpload };
+// Отправляет фото на сервер
+export const photoUpload = () => {
+  imgUpload.addEventListener('change', shownForm);
+  imgForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error();
+          }
+          hideForm();
+          showPopup(PopupTypes.SUCCESS);
+        })
+        .catch(() => {
+          showPopup(PopupTypes.ERROR);
+        })
+        .finally(() => {
+          blockSubmitButton(false);
+        });
+    }
+  });
+};

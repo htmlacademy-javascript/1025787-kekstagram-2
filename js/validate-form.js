@@ -1,7 +1,3 @@
-import { sendData } from './api.js';
-import { PopupTypes } from './constants.js';
-import { showPopup } from './popup.js';
-
 const imgForm = document.querySelector('.img-upload__form');
 const button = imgForm.querySelector('.img-upload__submit');
 
@@ -9,12 +5,7 @@ const HASHTAG_MAX_COUNT = 5;
 const HASHTAG_MAX_SYMBOLS = 20;
 const COMMENT_MAX_SYMBOLS = 140;
 
-const SubmitButtonText = {
-  IDLE: 'Опубликовать',
-  SENDING: 'Публикую...'
-};
-
-const pristine = new Pristine(imgForm, {
+export const pristine = new Pristine(imgForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
@@ -101,34 +92,3 @@ pristine.addValidator(
   isCommentValid,
   `Длина комментария не может быть больше ${COMMENT_MAX_SYMBOLS} символов`
 );
-
-const blockSubmitButton = (isBlocked = true) => {
-  button.disabled = isBlocked;
-  button.textContent = isBlocked ? SubmitButtonText.SENDING : SubmitButtonText.IDLE;
-};
-
-const setUserFormSubmit = (onSuccess) => {
-  imgForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
-      blockSubmitButton();
-      sendData(new FormData(evt.target))
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error();
-          }
-          onSuccess();
-          showPopup(PopupTypes.SUCCESS);
-        })
-        .catch(() => {
-          showPopup(PopupTypes.ERROR);
-        })
-        .finally(() => {
-          blockSubmitButton(false);
-        });
-    }
-  });
-};
-
-export { setUserFormSubmit };
