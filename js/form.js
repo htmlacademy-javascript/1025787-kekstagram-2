@@ -5,6 +5,7 @@ import {reset as resetFilter} from './effect.js';
 import { pristine } from './validate-form.js';
 import { PopupTypes } from './constants.js';
 import { showPopup } from './popup.js';
+import { onFileInputChange } from './upload-photo.js';
 
 const imgForm = document.querySelector('.img-upload__form');
 
@@ -41,7 +42,7 @@ const onDocumentKeydown = (evt) => {
 };
 
 // Окрывает форму редактирования фото
-const shownForm = () => {
+export const shownForm = () => {
   photoEditing.classList.remove('hidden');
   document.body.classList.add('modal-open');
   cancel.addEventListener('click', onCloseForm);
@@ -68,7 +69,7 @@ const blockSubmitButton = (isBlocked = true) => {
 
 // Отправляет фото на сервер
 export const photoUpload = () => {
-  imgUpload.addEventListener('change', shownForm);
+  imgUpload.addEventListener('change', onFileInputChange);
   imgForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
