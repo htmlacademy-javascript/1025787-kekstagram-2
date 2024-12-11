@@ -7,6 +7,13 @@ export const EFFECTS = {
   HEAT: 'heat'
 };
 
+export const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+
+export const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+
 export const EffectsSettings = {
   [EFFECTS.DEFAULT]: {
     range: {
@@ -79,3 +86,28 @@ export const SORTFUNC = {
   RANDOM: () => 0.5 - Math.random(),
   DISCUSSED: (a, b) => b.comments.length - a.comments.length
 };
+
+export const ACTIVE_BUTTON = 'img-filters__button--active';
+
+export const MAX_PHOTO_COUNT = 10;
+
+export const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
+
+export const REMOVE_ERRROR_TIMER = 5000;
+
+export const STEP = 5;
+
+export const SCALE_STEP = 25;
+export const SCALE_FACTOR = 0.01;
+export const MIN_SCALE = 25;
+export const MAX_SCALE = 100;
+export const DEFAULT_SCALE = MAX_SCALE;
+
+export const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif'];
+
+export const HASHTAG_MAX_COUNT = 5;
+export const HASHTAG_MAX_SYMBOLS = 20;
+export const COMMENT_MAX_SYMBOLS = 140;

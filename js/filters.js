@@ -1,17 +1,15 @@
-import { FILTERS, SORTFUNC } from './constants.js';
+import { FILTERS, SORTFUNC, ACTIVE_BUTTON, MAX_PHOTO_COUNT } from './constants.js';
 import { debounce } from './util.js';
 import { renderCards } from './get-miniatures.js';
 
 const filterElement = document.querySelector('.img-filters');
-const ACTIVE_BUTTON = 'img-filters__button--active';
-const MAX_PHOTO_COUNT = 10;
 
 let currentFilter = FILTERS.DEFAULT;
 let pictures = [];
 
 const debounceRender = debounce(renderCards);
 
-function onFilterChange (evt) {
+function onFilterChange(evt) {
   const targetButton = evt.target;
   const activeButton = document.querySelector(`.${ACTIVE_BUTTON}`);
   if (!targetButton.matches('button')) {
@@ -27,7 +25,7 @@ function onFilterChange (evt) {
   applyFilter();
 }
 
-function applyFilter () {
+function applyFilter() {
   let filteredPictures = [];
   if (currentFilter === FILTERS.DEFAULT) {
     filteredPictures = pictures;

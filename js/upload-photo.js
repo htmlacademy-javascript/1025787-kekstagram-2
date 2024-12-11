@@ -1,7 +1,6 @@
 import { shownToastError } from './get-miniatures.js';
 import { shownForm } from './form.js';
-
-const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif'];
+import { FILE_TYPES } from './constants.js';
 
 const fileChooser = document.querySelector('.img-upload__input');
 const preview = document.querySelector('.img-upload__preview img');

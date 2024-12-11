@@ -22,11 +22,11 @@ export const showPopup = (type) => {
   newPopup.addEventListener('click', ({ target }) => {
     if (target.classList.contains(type) || target.classList.contains(`${type}__button`)) {
       newPopup.remove();
-      document.removeEventListener('keydown', onDocumentKeydown, { once:true });
+      document.removeEventListener('keydown', onDocumentKeydown, { once: true });
     }
   });
 
-  document.addEventListener('keydown', onDocumentKeydown, { once:true });
+  document.addEventListener('keydown', onDocumentKeydown, { once: true });
 
   body.append(newPopup);
 };

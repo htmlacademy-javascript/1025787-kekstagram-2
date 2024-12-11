@@ -5,16 +5,13 @@ const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureElement.querySelector('.big-picture__img img');
 const likesCount = bigPictureElement.querySelector('.likes-count');
 const caption = bigPictureElement.querySelector('.social__caption');
-
 const buttonCancel = document.querySelector('.big-picture__cancel');
 
-// Обработчик нажатия на крестик
 const onCloseBigPictureClick = (evt) => {
   evt.preventDefault();
   closeBigPicture();
 };
 
-// Обработчик нажатия клавиши ESC
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -22,7 +19,6 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-// Функция для открытия модального окна
 const showModal = () => {
   bigPictureElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -30,7 +26,6 @@ const showModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-// Функция для скрытия модального окна
 const hideModal = () => {
   bigPictureElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -38,8 +33,7 @@ const hideModal = () => {
   buttonCancel.removeEventListener('click', onCloseBigPictureClick);
 };
 
-// Функция для очистки комментариев и закрытия модального окна
-function closeBigPicture () {
+function closeBigPicture() {
   clearComments();
   hideModal();
 }
@@ -53,7 +47,6 @@ const renderModal = ({ url, description, likes, comments }) => {
   openComments(comments);
 };
 
-// Функция для открытия большой картинки
 const openBigPicture = (currentPhoto) => {
   renderModal(currentPhoto);
   showModal();

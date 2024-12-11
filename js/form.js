@@ -1,11 +1,12 @@
 import { sendData } from './api.js';
 import { isEscapeKey } from './util.js';
-import { changeScale } from './scale.js';
-import {reset as resetFilter} from './effect.js';
+import { changeScale, reset as resetScale } from './scale.js';
+import { reset as resetFilter } from './effect.js';
 import { pristine } from './validate-form.js';
-import { PopupTypes } from './constants.js';
+import { PopupTypes, SubmitButtonText } from './constants.js';
 import { showPopup } from './popup.js';
 import { onFileInputChange } from './upload-photo.js';
+import { reset as resetValidation } from './validate-form.js';
 
 const imgForm = document.querySelector('.img-upload__form');
 
@@ -18,18 +19,11 @@ const fieldComment = imgForm.querySelector('.text__description');
 
 const button = imgForm.querySelector('.img-upload__submit');
 
-const SubmitButtonText = {
-  IDLE: 'Опубликовать',
-  SENDING: 'Публикую...'
-};
-
-// Обработчик нажатия на крестик
 const onCloseForm = (evt) => {
   evt.preventDefault();
   hideForm();
 };
 
-// Обработчик нажатия клавиши ESC
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -41,7 +35,6 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-// Окрывает форму редактирования фото
 export const shownForm = () => {
   photoEditing.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -50,24 +43,22 @@ export const shownForm = () => {
   changeScale();
 };
 
-// Скрывает форму редактирования фото
 function hideForm() {
   photoEditing.classList.add('hidden');
   document.body.classList.remove('modal-open');
   cancel.removeEventListener('click', onCloseForm);
   document.removeEventListener('keydown', onDocumentKeydown);
-  imgUpload.value = '';
   imgForm.reset();
   resetFilter();
+  resetValidation();
+  resetScale();
 }
 
-// Блокирует кнопку на время отправки данных
 const blockSubmitButton = (isBlocked = true) => {
   button.disabled = isBlocked;
   button.textContent = isBlocked ? SubmitButtonText.SENDING : SubmitButtonText.IDLE;
 };
 
-// Отправляет фото на сервер
 export const photoUpload = () => {
   imgUpload.addEventListener('change', onFileInputChange);
   imgForm.addEventListener('submit', (evt) => {
