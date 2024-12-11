@@ -1,13 +1,13 @@
+import { STEP } from './constants.js';
+
 const commentShownCount = document.querySelector('.social__comment-shown-count');
 const commentTotalCount = document.querySelector('.social__comment-total-count');
 const socialComments = document.querySelector('.social__comments');
 const socialCommentsTemplate = socialComments.querySelector('.social__comment');
-
 const commentsLoader = document.querySelector('.comments-loader');
 
 socialComments.innerHTML = '';
 
-const STEP = 5;
 let countComments = 0;
 let arrayComments = [];
 
@@ -27,7 +27,7 @@ const openNextComments = () => {
   const shownCommentsLength = shownComments.length + countComments;
   const socialCommentsFragment = document.createDocumentFragment();
 
-  shownComments.forEach(({avatar, name, message}) => {
+  shownComments.forEach(({ avatar, name, message }) => {
     const socialComment = socialCommentsTemplate.cloneNode(true);
 
     socialComment.querySelector('.social__picture').src = avatar;
@@ -42,7 +42,7 @@ const openNextComments = () => {
   renderStatistic(shownCommentsLength, arrayComments);
   renderLoader(shownCommentsLength, arrayComments);
 
-  countComments += 5;
+  countComments += STEP;
 };
 
 const clearComments = () => {

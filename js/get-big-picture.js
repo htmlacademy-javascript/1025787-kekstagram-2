@@ -5,7 +5,6 @@ const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureElement.querySelector('.big-picture__img img');
 const likesCount = bigPictureElement.querySelector('.likes-count');
 const caption = bigPictureElement.querySelector('.social__caption');
-
 const buttonCancel = document.querySelector('.big-picture__cancel');
 
 const onCloseBigPictureClick = (evt) => {
@@ -34,7 +33,7 @@ const hideModal = () => {
   buttonCancel.removeEventListener('click', onCloseBigPictureClick);
 };
 
-function closeBigPicture () {
+function closeBigPicture() {
   clearComments();
   hideModal();
 }

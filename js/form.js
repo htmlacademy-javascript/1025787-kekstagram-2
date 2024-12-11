@@ -1,12 +1,12 @@
 import { sendData } from './api.js';
 import { isEscapeKey } from './util.js';
-import { changeScale } from './scale.js';
-import {reset as resetFilter} from './effect.js';
+import { changeScale, reset as resetScale } from './scale.js';
+import { reset as resetFilter } from './effect.js';
 import { pristine } from './validate-form.js';
-import { PopupTypes } from './constants.js';
+import { PopupTypes, SubmitButtonText } from './constants.js';
 import { showPopup } from './popup.js';
 import { onFileInputChange } from './upload-photo.js';
-import {reset as resetValidation} from './validate-form.js';
+import { reset as resetValidation } from './validate-form.js';
 
 const imgForm = document.querySelector('.img-upload__form');
 
@@ -18,11 +18,6 @@ const fieldHashtags = imgForm.querySelector('.text__hashtags');
 const fieldComment = imgForm.querySelector('.text__description');
 
 const button = imgForm.querySelector('.img-upload__submit');
-
-const SubmitButtonText = {
-  IDLE: 'Опубликовать',
-  SENDING: 'Публикую...'
-};
 
 const onCloseForm = (evt) => {
   evt.preventDefault();
@@ -53,10 +48,10 @@ function hideForm() {
   document.body.classList.remove('modal-open');
   cancel.removeEventListener('click', onCloseForm);
   document.removeEventListener('keydown', onDocumentKeydown);
-  imgUpload.value = '';
   imgForm.reset();
   resetFilter();
   resetValidation();
+  resetScale();
 }
 
 const blockSubmitButton = (isBlocked = true) => {

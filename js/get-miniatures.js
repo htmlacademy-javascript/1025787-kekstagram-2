@@ -1,10 +1,9 @@
 import { openBigPicture } from './get-big-picture.js';
+import { REMOVE_ERRROR_TIMER } from './constants.js';
 
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const templateError = document.querySelector('#data-error').content.querySelector('.data-error');
-
-const REMOVE_ERRROR_TIMER = 5000;
 
 let localData;
 
@@ -43,7 +42,7 @@ const renderCards = (data) => {
 
 container.addEventListener('click', (evt) => {
   const card = evt.target.closest('.picture');
-  if(card){
+  if (card) {
     evt.preventDefault();
     const id = Number(card.dataset.id);
     const currentPhoto = localData.find((item) => item.id === id);
@@ -54,7 +53,7 @@ container.addEventListener('click', (evt) => {
 const shownToastError = (errorMessage) => {
   const errorElement = templateError.cloneNode(true);
   document.body.appendChild(errorElement);
-  if(errorMessage) {
+  if (errorMessage) {
     errorElement.querySelector('.data-error__title').textContent = errorMessage;
   }
   setTimeout(() => (errorElement.remove()), REMOVE_ERRROR_TIMER);

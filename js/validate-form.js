@@ -1,9 +1,7 @@
+import { HASHTAG_MAX_COUNT, HASHTAG_MAX_SYMBOLS, COMMENT_MAX_SYMBOLS } from './constants.js';
+
 const imgForm = document.querySelector('.img-upload__form');
 const button = imgForm.querySelector('.img-upload__submit');
-
-const HASHTAG_MAX_COUNT = 5;
-const HASHTAG_MAX_SYMBOLS = 20;
-const COMMENT_MAX_SYMBOLS = 140;
 
 export const pristine = new Pristine(imgForm, {
   classTo: 'img-upload__field-wrapper',
