@@ -11,24 +11,20 @@ export const pristine = new Pristine(imgForm, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-// Сообщение об ошибке
 let errorMessage = '';
 const error = () => errorMessage;
 
-// Проверяет валидность хэштегов
 const isHashtagValid = (value) => {
-  // Очищает сообщение об ошибке
   errorMessage = '';
-  // Приводит к нижнему регистру и убирает пробелы по бокам
+
   const hastagsText = value.toLowerCase().trim();
-  // Проверяет отсутствие хэштегов
   if (hastagsText.length === 0) {
     button.disabled = false;
     return true;
   }
-  // Создает массив хэштегов из данных поля
-  const hastagsArray = value.toLowerCase().split(' ');
-  // Создаёт правила показа ошибок
+
+  const hastagsArray = value.toLowerCase().split(' ').filter((item) => item.length);
+
   const rules = [
     {
       check: hastagsArray.some((item) => item === '#'),
@@ -79,7 +75,6 @@ pristine.addValidator(
   error
 );
 
-// Проверяет количество символов в комментарии
 const isCommentValid = (value) => {
   if (value.length === 0) {
     return true;
@@ -92,3 +87,7 @@ pristine.addValidator(
   isCommentValid,
   `Длина комментария не может быть больше ${COMMENT_MAX_SYMBOLS} символов`
 );
+
+export const reset = () => {
+  pristine.reset();
+};

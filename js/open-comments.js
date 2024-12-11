@@ -11,13 +11,11 @@ const STEP = 5;
 let countComments = 0;
 let arrayComments = [];
 
-// Отображает количество видимых комментариев
 const renderStatistic = (shownElementsCount, array) => {
   commentShownCount.textContent = shownElementsCount;
   commentTotalCount.textContent = array.length;
 };
 
-// Проверяет нужно ли скрывать кнопку
 const renderLoader = (shownElementsCount, array) => {
   if (shownElementsCount >= array.length) {
     commentsLoader.classList.add('hidden');
