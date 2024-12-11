@@ -27,7 +27,7 @@ const isHashtagValid = (value) => {
     return true;
   }
   // Создает массив хэштегов из данных поля
-  const hastagsArray = value.split(' ');
+  const hastagsArray = value.toLowerCase().split(' ');
   // Создаёт правила показа ошибок
   const rules = [
     {
