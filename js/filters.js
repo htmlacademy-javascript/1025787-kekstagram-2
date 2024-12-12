@@ -30,9 +30,9 @@ function applyFilter() {
   if (currentFilter === FILTERS.DEFAULT) {
     filteredPictures = pictures;
   } else if (currentFilter === FILTERS.RANDOM) {
-    filteredPictures = pictures.toSorted(SORTFUNC.RANDOM).slice(0, MAX_PHOTO_COUNT);
+    filteredPictures = pictures.toSorted(SORTFUNC.GET_RANDOM_NUMBER).slice(0, MAX_PHOTO_COUNT);
   } else if (currentFilter === FILTERS.DISCUSSED) {
-    filteredPictures = pictures.toSorted(SORTFUNC.DISCUSSED);
+    filteredPictures = pictures.toSorted(SORTFUNC.GET_DISCUSSED);
   }
 
   debounceRender(filteredPictures);
@@ -42,7 +42,7 @@ export const filtersActive = () => {
   filterElement.classList.remove('img-filters--inactive');
 };
 
-export const configFilter = (picturesData) => {
+export const chooseFilter = (picturesData) => {
   filterElement.addEventListener('click', onFilterChange);
   pictures = picturesData;
 };
