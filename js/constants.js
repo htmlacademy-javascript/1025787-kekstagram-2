@@ -83,8 +83,8 @@ export const FILTERS = {
 };
 
 export const SORTFUNC = {
-  RANDOM: () => 0.5 - Math.random(),
-  DISCUSSED: (a, b) => b.comments.length - a.comments.length
+  GET_RANDOM_NUMBER: () => 0.5 - Math.random(),
+  GET_DISCUSSED: (a, b) => b.comments.length - a.comments.length
 };
 
 export const ACTIVE_BUTTON = 'img-filters__button--active';

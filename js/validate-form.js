@@ -10,7 +10,7 @@ export const pristine = new Pristine(imgForm, {
 });
 
 let errorMessage = '';
-const error = () => errorMessage;
+const createErrorMessage = () => errorMessage;
 
 const isHashtagValid = (value) => {
   errorMessage = '';
@@ -70,7 +70,7 @@ const isHashtagValid = (value) => {
 pristine.addValidator(
   imgForm.querySelector('.text__hashtags'),
   isHashtagValid,
-  error
+  createErrorMessage
 );
 
 const isCommentValid = (value) => {

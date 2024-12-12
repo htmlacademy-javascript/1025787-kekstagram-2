@@ -11,18 +11,18 @@ socialComments.innerHTML = '';
 let countComments = 0;
 let arrayComments = [];
 
-const renderStatistic = (shownElementsCount, array) => {
+const renderStatistic = (shownElementsCount, comments) => {
   commentShownCount.textContent = shownElementsCount;
-  commentTotalCount.textContent = array.length;
+  commentTotalCount.textContent = comments.length;
 };
 
-const renderLoader = (shownElementsCount, array) => {
-  if (shownElementsCount >= array.length) {
+const renderLoader = (shownElementsCount, comments) => {
+  if (shownElementsCount >= comments.length) {
     commentsLoader.classList.add('hidden');
   }
 };
 
-const openNextComments = () => {
+const onUploadButtonClick = () => {
   const shownComments = arrayComments.slice(countComments, countComments + STEP);
   const shownCommentsLength = shownComments.length + countComments;
   const socialCommentsFragment = document.createDocumentFragment();
@@ -49,13 +49,13 @@ const clearComments = () => {
   countComments = 0;
   socialComments.innerHTML = '';
   commentsLoader.classList.remove('hidden');
-  commentsLoader.removeEventListener('click', openNextComments);
+  commentsLoader.removeEventListener('click', onUploadButtonClick);
 };
 
 const openComments = (currentPhotoComments) => {
   arrayComments = [...currentPhotoComments];
-  openNextComments();
-  commentsLoader.addEventListener('click', openNextComments);
+  onUploadButtonClick();
+  commentsLoader.addEventListener('click', onUploadButtonClick);
 };
 
 export { openComments, clearComments };

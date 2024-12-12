@@ -6,14 +6,14 @@ const buttonSmaller = scale.querySelector('.scale__control--smaller');
 const buttonBigger = scale.querySelector('.scale__control--bigger');
 const imagePreview = document.querySelector('.img-upload__preview img');
 
-const getSmaller = () => {
+const onSmallerButtonClick = () => {
   if (parseFloat(scaleControl.value) > MIN_SCALE) {
     scaleControl.value = `${parseFloat(scaleControl.value) - SCALE_STEP}%`;
     imagePreview.style.transform = `scale(${parseFloat(scaleControl.value) * SCALE_FACTOR})`;
   }
 };
 
-const getBigger = () => {
+const onBiggerButtonClick = () => {
   if (parseFloat(scaleControl.value) < MAX_SCALE) {
     scaleControl.value = `${parseFloat(scaleControl.value) + SCALE_STEP}%`;
     imagePreview.style.transform = `scale(${parseFloat(scaleControl.value) * SCALE_FACTOR})`;
@@ -21,8 +21,8 @@ const getBigger = () => {
 };
 
 export const changeScale = () => {
-  buttonSmaller.addEventListener('click', getSmaller);
-  buttonBigger.addEventListener('click', getBigger);
+  buttonSmaller.addEventListener('click', onSmallerButtonClick);
+  buttonBigger.addEventListener('click', onBiggerButtonClick);
 };
 
 export const reset = () => {
